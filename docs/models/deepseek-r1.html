@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeepSeek-R1 架構與訓練解析 | LLM Research Wiki</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="brand">🧠 LLM Research Wiki</a>
+      <nav class="nav-links">
+        <a href="../index.html">總覽首頁</a>
+        <a href="../index.html#papers">論文精讀</a>
+        <a href="../index.html#concepts">核心概念</a>
+        <a href="../index.html#models">模型架構</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container article-container">
+    <div class="breadcrumb">
+      <a href="../index.html">首頁</a> / <span>模型架構 (Models)</span>
+    </div>
+    <article class="wiki-article">
+      <header class="article-header">
+        <div class="meta-tags">
+          <span class="badge">模型架構</span>
+          <span class="date">更新日期：2026-11-17</span>
+        </div>
+        <h1>DeepSeek-R1 架構與訓練解析</h1>
+        <p class="lead">驗證純強化學習（Pure RL）無需依賴大量人工標註的思維鏈監督資料，即可讓模型湧現出自我反思與長程推理能力。</p>
+      </header>
+
+      <section class="article-body">
+        <h2>1. 核心訓練範式突破</h2>
+        <ul>
+          <li><strong>DeepSeek-R1-Zero</strong>：直接從基礎模型出發，跳過監督式微調（SFT），完全透過 GRPO（Group Relative Policy Optimization）強化學習演算法進行訓練，觀察到模型自發學會增加思考時間與自我檢驗（Aha Moment）。</li>
+          <li><strong>冷啟動與多階段訓練（DeepSeek-R1）</strong>：為解決 R1-Zero 可讀性差與語言混雜問題，先引入少量高品質長思維鏈資料進行冷啟動（Cold Start），再結合推理導向 RL 與全場景對齊。</li>
+        </ul>
+
+        <h2>2. 底層架構效率</h2>
+        <p>在基礎架構上承襲 <a href="../papers/attention-is-all-you-need.html">Transformer</a> 並結合混合專家模型（MoE）與多頭潛在注意力（MLA），大幅壓縮推論時的 <a href="../concepts/kv-cache.html">KV Cache</a> 記憶體佔用，使長思維鏈（Long CoT）的大規模推論具備經濟可行性。</p>
+      </section>
+
+      <footer class="related-links">
+        <h3>🔗 相關知識連結 (Wiki Links)</h3>
+        <ul>
+          <li><a href="../papers/attention-is-all-you-need.html">論文：Attention Is All You Need</a></li>
+          <li><a href="../concepts/kv-cache.html">概念：KV Cache（鍵值快取機制）</a></li>
+        </ul>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Maintained by AI Agent under <code>AGENTS.md</code> · Powered by LLM Wiki Pattern</p>
+    </div>
+  </footer>
+</body>
+</html>

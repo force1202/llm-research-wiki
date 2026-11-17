@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KV Cache（鍵值快取機制） | LLM Research Wiki</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="brand">🧠 LLM Research Wiki</a>
+      <nav class="nav-links">
+        <a href="../index.html">總覽首頁</a>
+        <a href="../index.html#papers">論文精讀</a>
+        <a href="../index.html#concepts">核心概念</a>
+        <a href="../index.html#models">模型架構</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container article-container">
+    <div class="breadcrumb">
+      <a href="../index.html">首頁</a> / <span>核心概念 (Concepts)</span>
+    </div>
+    <article class="wiki-article">
+      <header class="article-header">
+        <div class="meta-tags">
+          <span class="badge">核心概念</span>
+          <span class="date">更新日期：2026-11-17</span>
+        </div>
+        <h1>KV Cache（鍵值快取機制）</h1>
+        <p class="lead">大型語言模型自回歸（Autoregressive）推論加速的核心基石：透過快取歷史 Token 的 Key 與 Value 向量，避免重複計算。</p>
+      </header>
+
+      <section class="article-body">
+        <h2>1. 為什麼需要 KV Cache？</h2>
+        <p>在基於 <a href="../papers/attention-is-all-you-need.html">Transformer</a> 的解碼器生成文字時，模型每次只會預測下一個 Token。若不使用快取，每生成一個新 Token 都必須重新計算前面所有 Token 的 Q、K、V 矩陣，導致計算量隨序列長度呈平方級成長。</p>
+
+        <h2>2. 運作階段拆解</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>推論階段</th>
+              <th>主要行為</th>
+              <th>效能瓶頸</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Prefill（預填充）</strong></td>
+              <td>平行處理整段 Prompt，計算並儲存所有輸入 Token 的 K 與 V 矩陣。</td>
+              <td>計算密集型（Compute-bound）</td>
+            </tr>
+            <tr>
+              <td><strong>Decode（逐字生成）</strong></td>
+              <td>僅計算當前新 Token 的 Q、K、V，並與快取中的歷史 K、V 拼接進行注意力運算。</td>
+              <td>記憶體頻寬密集型（Memory-bandwidth bound）</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>3. 衍生演進方向</h2>
+        <p>隨著上下文長度擴展至 128K 甚至百萬等級，KV Cache 佔用的 GPU 顯存成為主要瓶頸，進而催生了 MQA（Multi-Query Attention）、GQA（Grouped-Query Attention）以及 <a href="../models/deepseek-r1.html">DeepSeek-R1</a> 所採用的 MLA（Multi-Head Latent Attention）壓縮技術。</p>
+      </section>
+
+      <footer class="related-links">
+        <h3>🔗 相關知識連結 (Wiki Links)</h3>
+        <ul>
+          <li><a href="../papers/attention-is-all-you-need.html">論文：Attention Is All You Need</a></li>
+          <li><a href="../models/deepseek-r1.html">模型：DeepSeek-R1 架構解析</a></li>
+        </ul>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Maintained by AI Agent under <code>AGENTS.md</code> · Powered by LLM Wiki Pattern</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attention Is All You Need | LLM Research Wiki</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="brand">🧠 LLM Research Wiki</a>
+      <nav class="nav-links">
+        <a href="../index.html">總覽首頁</a>
+        <a href="../index.html#papers">論文精讀</a>
+        <a href="../index.html#concepts">核心概念</a>
+        <a href="../index.html#models">模型架構</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container article-container">
+    <div class="breadcrumb">
+      <a href="../index.html">首頁</a> / <span>論文精讀 (Papers)</span>
+    </div>
+    <article class="wiki-article">
+      <header class="article-header">
+        <div class="meta-tags">
+          <span class="badge">論文精讀</span>
+          <span class="date">更新日期：2026-11-17</span>
+        </div>
+        <h1>Attention Is All You Need (Transformer)</h1>
+        <p class="lead">拋棄傳統循環神經網路（RNN）與卷積結構，完全依賴多頭自注意力機制（Multi-Head Self-Attention）實現高度平行化的序列建模。</p>
+      </header>
+
+      <section class="article-body">
+        <h2>1. 核心問題與貢獻</h2>
+        <p>在 2017 年以前，序列轉導任務（如機器翻譯）主要由 LSTM 與 GRU 等 RNN 架構主導。然而 RNN 必須依序計算隱藏狀態，導致長序列訓練難以平行化，且存在長距離依賴資訊衰減的問題。</p>
+        <blockquote>
+          核心突破：透過 Scaled Dot-Product Attention，任意兩個位置的 Token 都能在 O(1) 步長內直接計算關聯權重。
+        </blockquote>
+
+        <h2>2. 關鍵架構組件</h2>
+        <ul>
+          <li><strong>Scaled Dot-Product Attention</strong>：將 Query 與 Key 進行內積並除以維度平方根，避免 Softmax 進入梯度飽和區。</li>
+          <li><strong>Multi-Head Attention</strong>：將向量投影到多個子空間平行計算注意力，讓模型同時捕捉語法結構與語意關聯。</li>
+          <li><strong>Positional Encoding</strong>：由於缺乏循環結構，透過正弦與餘弦函數為輸入嵌入向量注入位置資訊。</li>
+        </ul>
+
+        <h2>3. 對後續研究的深遠影響</h2>
+        <p>現代主流大型語言模型（如 GPT 系列與 <a href="../models/deepseek-r1.html">DeepSeek-R1</a>）皆沿用其 Decoder 架構，並針對推論階段的注意力計算衍生出 <a href="../concepts/kv-cache.html">KV Cache</a> 等核心最佳化技術。</p>
+      </section>
+
+      <footer class="related-links">
+        <h3>🔗 相關知識連結 (Wiki Links)</h3>
+        <ul>
+          <li><a href="../concepts/kv-cache.html">概念：KV Cache（鍵值快取機制）</a></li>
+          <li><a href="../models/deepseek-r1.html">模型：DeepSeek-R1 架構解析</a></li>
+        </ul>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Maintained by AI Agent under <code>AGENTS.md</code> · Powered by LLM Wiki Pattern</p>
+    </div>
+  </footer>
+</body>
+</html>
